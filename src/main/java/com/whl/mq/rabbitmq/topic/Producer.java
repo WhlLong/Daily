@@ -1,7 +1,6 @@
-package com.whl.mq.rabbitmq.helloworld;
+package com.whl.mq.rabbitmq.topic;
 
 import com.rabbitmq.client.*;
-import com.whl.mq.rabbitmq.Config;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -15,7 +14,10 @@ import java.util.concurrent.TimeoutException;
  */
 public class Producer {
 
-    private final static String QUEUE_NAME = "Queue20190122";
+    private  static  final String EXCHANGE_NAME = "logs-routing" ;
+    private  static  final String LOG_LEVEL_INFO = "info" ;
+    private  static  final String LOG_LEVEL_WARN = "warn";
+    private  static  final String LOG_LEVEL_ERROR = "error" ;
 
     public static void main(String[] args) {
         send();
@@ -28,12 +30,11 @@ public class Producer {
         Channel channel = null;
         try {
             factory = new ConnectionFactory();
-            factory.setHost(Config.HOST);
-            factory.setPort(5672);
-            factory.setUsername("admin");
-            factory.setPassword("admin");
+            factory.setHost("localhost");
             connection = factory.newConnection();
             channel = connection.createChannel();
+
+            channel.exchangeDeclare(EXCHANGE_NAME,"direct");
             //将当前channel设置为confirm模式
             channel.confirmSelect();
             //设置confirm监听器
@@ -55,14 +56,26 @@ public class Producer {
 
             //第二个参数false -> true   将MQ的队列设置为可持久化的
             //String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+//            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
             for(int i=0;i<100;i++){
 
+                String level = "";
+                String message = "";
+                if(i % 3 == 0){
+                    level = LOG_LEVEL_INFO;
+                    message = "LOG_LEVEL_INFO..."+i;
+                }else if(i % 3 == 1){
+                    level = LOG_LEVEL_WARN;
+                    message = "LOG_LEVEL_WARN..."+i;
+                }else{
+                    level = LOG_LEVEL_ERROR;
+                    message = "LOG_LEVEL_ERROR..."+i;
+                }
 
-                String message = "my message ....."+i;
+
                 //第三个参数  意思是这条数据是可持久化的
                 //String exchange, String routingKey, BasicProperties props, byte[] body
-                channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes("UTF-8"));
+                channel.basicPublish(EXCHANGE_NAME, level, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes("UTF-8"));
 //                System.out.println("已经发送消息....."+message);
             }
 
