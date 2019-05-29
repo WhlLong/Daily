@@ -10,5 +10,8 @@ package com.whl.mq.rabbitmq;
 public class Config {
 
     public static final String HOST = "39.105.139.149";
+    public static final int PORT = 5672;
+    public static final String USERNAME = "admin";
+    public static final String PASSWORD = "admin";
 
 }

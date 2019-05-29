@@ -2,6 +2,7 @@ package com.whl.mq.rabbitmq.routing;
 
 
 import com.rabbitmq.client.*;
+import com.whl.mq.rabbitmq.Config;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class Receiver2 {
 
-    private final static String QUEUE_NAME = "Queue2019021504";
+    private final static String QUEUE_NAME = "Queue2019021503";
     private static final String EXCHANGE_NAME = "logs-routing";
 
     private  static  final String LOG_LEVEL_INFO = "info" ;
@@ -34,7 +35,10 @@ public class Receiver2 {
 
         try {
             factory = new ConnectionFactory();
-            factory.setHost("localhost");
+            factory.setHost(Config.HOST);
+            factory.setPort(Config.PORT);
+            factory.setUsername(Config.USERNAME);
+            factory.setPassword(Config.PASSWORD);
             connection = factory.newConnection();
             channel = connection.createChannel();
             //第二个参数false -> true   将MQ的队列设置为可持久化的
