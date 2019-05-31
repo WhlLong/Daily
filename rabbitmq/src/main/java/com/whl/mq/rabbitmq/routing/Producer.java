@@ -1,6 +1,7 @@
 package com.whl.mq.rabbitmq.routing;
 
 import com.rabbitmq.client.*;
+import com.whl.mq.rabbitmq.Config;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -30,7 +31,10 @@ public class Producer {
         Channel channel = null;
         try {
             factory = new ConnectionFactory();
-            factory.setHost("localhost");
+            factory.setHost(Config.HOST);
+            factory.setPort(Config.PORT);
+            factory.setUsername(Config.USERNAME);
+            factory.setPassword(Config.PASSWORD);
             connection = factory.newConnection();
             channel = connection.createChannel();
 

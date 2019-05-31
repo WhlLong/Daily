@@ -2,6 +2,7 @@ package com.whl.mq.rabbitmq.pubsub;
 
 
 import com.rabbitmq.client.*;
+import com.whl.mq.rabbitmq.Config;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,7 +31,10 @@ public class Receiver1 {
 
         try {
             factory = new ConnectionFactory();
-            factory.setHost("localhost");
+            factory.setHost(Config.HOST);
+            factory.setPort(Config.PORT);
+            factory.setUsername(Config.USERNAME);
+            factory.setPassword(Config.PASSWORD);
             connection = factory.newConnection();
             channel = connection.createChannel();
             //第二个参数false -> true   将MQ的队列设置为可持久化的
