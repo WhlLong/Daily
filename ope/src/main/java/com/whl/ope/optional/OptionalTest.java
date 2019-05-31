@@ -21,6 +21,18 @@ public class OptionalTest {
         System.out.println(optional.orElseGet(() -> "nihao"));
 
 
+        System.out.println("---分隔线--");
+
+
+        Optional<String> optionalNull = Optional.ofNullable(null);
+
+        optionalNull.ifPresent(item -> System.out.println(item)); //推荐的Optional使用方式
+        System.out.println("-------");
+
+        System.out.println(optionalNull.orElse("world"));
+        System.out.println("---------");
+
+        System.out.println(optionalNull.orElseGet(() -> "nihao"));
 
     }
 }
