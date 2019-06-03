@@ -3,7 +3,7 @@ package com.whl.ope.stream;
 import java.util.stream.IntStream;
 
 /**
- * 〈〉
+ * 〈IntStream简单使用〉
  *
  * @author whl
  * @create 2019/5/30

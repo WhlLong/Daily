@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * 〈〉
+ * 〈创建流的方式〉
  *
  * @author whl
  * @create 2019/5/30
