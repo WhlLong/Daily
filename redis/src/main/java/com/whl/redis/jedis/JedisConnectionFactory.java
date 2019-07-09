@@ -17,7 +17,7 @@ public class JedisConnectionFactory {
 
     static {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPool = new JedisPool(jedisPoolConfig, "192.168.1.128", 6379, 5000, null);
+        jedisPool = new JedisPool(jedisPoolConfig, "39.105.139.149", 8088, 5000, null);
 
     }
 
@@ -32,10 +32,7 @@ public class JedisConnectionFactory {
             System.out.println("error:" + e.getMessage());
             e.printStackTrace();
         } finally {
-            //注意这里不是关闭连接，在JedisPool模式下，Jedis会被归还给资源池。
-            if (jedis != null) {
-                jedis.close();
-            }
+
         }
 
         return jedis;

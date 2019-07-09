@@ -71,11 +71,9 @@ public class RedisString {
          decrResult = jedis.decrBy("number1",2);
         System.out.println("decrResult = " + decrResult);
 
-    }
 
-
-    private static void print(Jedis jedis) {
-
+        //将连接返回给连接池
+        jedis.close();
     }
 
 }

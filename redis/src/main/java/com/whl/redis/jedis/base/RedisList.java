@@ -3,8 +3,6 @@ package com.whl.redis.jedis.base;
 import com.whl.redis.jedis.JedisConnectionFactory;
 import redis.clients.jedis.Jedis;
 
-import java.util.List;
-
 /**
  * 〈Redis基础结构之List〉
  *
@@ -80,6 +78,9 @@ public class RedisList {
         //ltrim   start_index 和 end_index 定义了一个区间，在这个区间内的值要保留，区间之外统统砍掉。慎用
         System.out.println(jedis.ltrim("book", 0, 2));
         System.out.println("llen="+jedis.llen("book"));
+
+        //将连接返回给连接池
+        jedis.close();
     }
 
 
