@@ -3,6 +3,10 @@ package com.whl.redis.jedis;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisSentinelPool;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 〈〉
@@ -11,13 +15,17 @@ import redis.clients.jedis.JedisPoolConfig;
  * @create 2019/7/2
  * @since 1.0.0
  */
-public class JedisConnectionFactory {
+public class JedisSentinelConnectionFactory {
 
-    public static JedisPool jedisPool;
+    public static JedisSentinelPool jedisSentinelPool;
 
     static {
+        Set<String> sentinels = new HashSet<>(3);
+        sentinels.add("192.168.1.131:6379");
+        sentinels.add("192.168.1.132:6379");
+        sentinels.add("192.168.1.133:6379");
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPool = new JedisPool(jedisPoolConfig, "39.105.139.149", 6379, 5000, null);
+        jedisSentinelPool = new JedisSentinelPool("masterredis",sentinels,jedisPoolConfig,5*1000,5*1000,null,0,"test1");
 
     }
 
@@ -25,14 +33,13 @@ public class JedisConnectionFactory {
     public static Jedis newConnection() {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
-
+            jedis = jedisSentinelPool.getResource();
         } catch (Exception e) {
 //            logger.error(e.getMessage(), e);
             System.out.println("error:" + e.getMessage());
             e.printStackTrace();
         } finally {
-
+            System.out.println("===newConnection==");
         }
 
         return jedis;
